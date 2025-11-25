@@ -87,7 +87,7 @@
             const handleDateClick = (day) => {
                 const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
                 const key = formatDateKey(date);
-                setSelectedDate(key);
+                setSelectedDate(selectedDate === key ? null : key);
             };
 
             const markPeriod = (type) => {
