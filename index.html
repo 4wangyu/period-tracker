@@ -6,8 +6,12 @@
     <meta name="theme-color" content="#ec4899">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="description" content="Track your menstrual cycle">
     <title>Period Tracker</title>
-    <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiUGVyaW9kIFRyYWNrZXIiLCJzaG9ydF9uYW1lIjoiUGVyaW9kIiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiNmZmZmZmYiLCJ0aGVtZV9jb2xvciI6IiNlYzQ4OTkifQ==">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.ico">
+    <link rel="apple-touch-icon" sizes="152x152" href="icon-152.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body {
@@ -314,6 +318,15 @@
 
         const root = ReactDOM.createRoot(document.getElementById('app'));
         root.render(React.createElement(PeriodTracker));
+
+        // Register service worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(registration => console.log('SW registered:', registration))
+                    .catch(error => console.log('SW registration failed:', error));
+            });
+        }
     </script>
 </body>
 </html>

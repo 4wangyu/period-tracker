@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate Icons</title>
+</head>
+<body>
+    <h1>Generating Icons...</h1>
+    <p>Check your downloads folder for the icon files.</p>
+    
+    <script>
+        const sizes = [72, 96, 128, 144, 152, 192, 384, 512];
+        
+        function generateIcon(size) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#ec4899');
+            gradient.addColorStop(0.5, '#a855f7');
+            gradient.addColorStop(1, '#ec4899');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // Draw calendar icon
+            const padding = size * 0.2;
+            const iconSize = size - (padding * 2);
+            
+            // Calendar body
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(padding, padding + iconSize * 0.15, iconSize, iconSize * 0.85);
+            
+            // Calendar header
+            ctx.fillStyle = '#fce7f3';
+            ctx.fillRect(padding, padding + iconSize * 0.15, iconSize, iconSize * 0.2);
+            
+            // Rings at top
+            const ringRadius = iconSize * 0.06;
+            const ringY = padding + iconSize * 0.1;
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.arc(padding + iconSize * 0.3, ringY, ringRadius, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(padding + iconSize * 0.7, ringY, ringRadius, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Period dot
+            const dotRadius = iconSize * 0.15;
+            ctx.fillStyle = '#ec4899';
+            ctx.beginPath();
+            ctx.arc(padding + iconSize * 0.5, padding + iconSize * 0.6, dotRadius, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Download
+            canvas.toBlob(blob => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `icon-${size}.png`;
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        }
+        
+        // Generate all sizes
+        sizes.forEach((size, index) => {
+            setTimeout(() => generateIcon(size), index * 500);
+        });
+        
+        // Also generate favicon
+        setTimeout(() => {
+            const canvas = document.createElement('canvas');
+            canvas.width = 32;
+            canvas.height = 32;
+            const ctx = canvas.getContext('2d');
+            
+            const gradient = ctx.createLinearGradient(0, 0, 32, 32);
+            gradient.addColorStop(0, '#ec4899');
+            gradient.addColorStop(1, '#a855f7');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, 32, 32);
+            
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.arc(16, 16, 8, 0, Math.PI * 2);
+            ctx.fill();
+            
+            canvas.toBlob(blob => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'favicon.ico';
+                a.click();
+                URL.revokeObjectURL(url);
+            });
+        }, sizes.length * 500);
+    </script>
+</body>
+</html>
